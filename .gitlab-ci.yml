@@ -1,0 +1,4 @@
+include:
+  - project: 'cir/optittm/common/ci'
+    file:
+      - '.maven.yml'

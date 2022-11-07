@@ -1,0 +1,28 @@
+{
+  "properties": [
+    {
+      "name": "environments.dev.urlApiServer",
+      "type": "java.lang.String",
+      "description": "Description for environments.dev.urlApiServer."
+    },
+    {
+      "name": "environments.dev.corsAllowedOrigins",
+      "type": "java.lang.String",
+      "description": "Description for environments.dev.corsAllowedOrigins."
+    },
+    {
+      "name": "environments.dev.corsAllowedCredentials",
+      "type": "java.lang.Boolean",
+      "description": "Description for environments.dev.corsAllowedCredentials."
+    },
+    {
+      "name": "environments.dev.corsAllowHeaders",
+      "type": "java.lang.String",
+      "description": "Description for environments.dev.corsAllowHeaders."
+    },
+    {
+      "name": "environments.dev.corsExposedHeaders",
+      "type": "java.lang.String",
+      "description": "Description for environments.dev.corsExposedHeaders."
+    }
+  ] }

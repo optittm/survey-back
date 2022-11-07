@@ -1,0 +1,8 @@
+environments:
+  dev:
+    urlApiServer: "http://127.0.0.1:8000"
+    corsAllowedOrigins: "http://127.0.0.1:5500"
+    corsAllowedCredentials: true
+    corsAllowHeaders: "Content-Type, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Authorization, -Requested-With, requestId, Correlation-Id"
+    corsExposedHeaders: "Access-Control-Allow-Origin, Access-Control-Allow-Credentials"
+
