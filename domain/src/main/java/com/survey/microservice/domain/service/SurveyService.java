@@ -47,6 +47,9 @@ public class SurveyService implements ISurveyService {
         if(!checkRules(rules.get())){
             return false;
         }
+        if (lastTimeAnswer.isPresent()) {
+            return true;
+        }
         return lastTimeAnswer.map(localDateTime -> checkUserRules(rules.get().delayBeforeReAnswer, localDateTime))
                 .orElse(true);
     }
