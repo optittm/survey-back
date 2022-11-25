@@ -1,8 +1,10 @@
 package com.survey.microservice.application;
 
+import com.survey.microservice.domain.data.ProjectDTO;
 import com.survey.microservice.domain.data.SurveyRulesDTO;
 import com.survey.microservice.domain.data.UserComment;
 import com.survey.microservice.domain.ports.api.ICommentService;
+import com.survey.microservice.domain.ports.api.IProjectService;
 import com.survey.microservice.domain.ports.api.ISurveyService;
 import com.survey.microservice.domain.ports.api.ITimestampService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,26 +17,46 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
 public class MicroServiceController {
 
+    private final IProjectService projectService;
     private final ISurveyService surveyService;
     private final ICommentService commentService;
     private final ITimestampService timestampService;
     private final CookieHelper cookieHelper;
 
     @Autowired
-    public MicroServiceController(ISurveyService surveyService,
+    public MicroServiceController(IProjectService projectService,
+                                ISurveyService surveyService,
                                   ITimestampService tsService,
                                   ICommentService commentService,
                                   CookieHelper cookieHelper) {
+        this.projectService = projectService;
         this.surveyService = surveyService;
         this.commentService = commentService;
         this.timestampService = tsService;
         this.cookieHelper = cookieHelper;
+    }
+
+    @GetMapping("/projects")
+    @ResponseBody
+    public ResponseEntity<List<ProjectDTO>> getProjects(HttpServletRequest request,
+                                            HttpServletResponse response) {
+
+        List<ProjectDTO> projects = projectService.getProjects();
+
+        if (!projects.isEmpty()) {
+            Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+            String timeStampEncrypted = timestampService.encryptTimeStamp(timeStamp);
+            response.addHeader("Set-Cookie", "timestamp=" + timeStampEncrypted + ";HttpOnly; SameSite=None; Secure; Path=/");
+
+        }
+        return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
     @GetMapping("/rules")

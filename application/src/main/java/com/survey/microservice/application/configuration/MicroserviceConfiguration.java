@@ -1,10 +1,12 @@
 package com.survey.microservice.application.configuration;
 
 import com.survey.microservice.domain.ports.api.ICommentService;
+import com.survey.microservice.domain.ports.api.IProjectService;
 import com.survey.microservice.domain.ports.api.ISurveyService;
 import com.survey.microservice.domain.ports.api.ITimestampService;
 import com.survey.microservice.domain.ports.spi.IOttmRepository;
 import com.survey.microservice.domain.service.CommentService;
+import com.survey.microservice.domain.service.ProjectService;
 import com.survey.microservice.domain.service.SurveyService;
 import com.survey.microservice.domain.service.TimestampService;
 import com.survey.microservice.domain.utils.AESCrypt;
@@ -48,6 +50,11 @@ public class MicroserviceConfiguration {
     @Bean
     public ICommentService commentService(){
         return new CommentService(ottmRepository());
+    }
+
+    @Bean
+    public IProjectService projectService(){
+        return new ProjectService(ottmRepository());
     }
 
 }
