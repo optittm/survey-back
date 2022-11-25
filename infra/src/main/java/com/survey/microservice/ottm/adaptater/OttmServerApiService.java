@@ -17,6 +17,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,7 +29,7 @@ public class OttmServerApiService implements IOttmRepository {
     @Value("${environments.dev.urlApiServer}")
     private String URL_OTTM_SERVER;
     private static final String URL_SURVEY_RULES = "/rules";
-    private static final String URL_SURVEY = "/surveys";
+    private static final String URL_SURVEY = "/survey";
     private static final String URL_COMMENT = "/comments";
     private static final String URL_PROJECT = "/projects";
     private static final String URL_FEATURE = "/features";
@@ -62,6 +65,21 @@ public class OttmServerApiService implements IOttmRepository {
 
 
         return rules;
+    }
+
+    @Override
+    public List<ProjectDTO> getProjects(){
+        String projectsUrl = UriComponentsBuilder.fromHttpUrl(URL_OTTM_SERVER + URL_PROJECT)
+                .encode()
+                .toUriString();
+        try{
+            ResponseEntity<ProjectDTO[]> projectsResponsesEntity = restTemplate.getForEntity(projectsUrl, ProjectDTO[].class);
+            logger.info("Projects get: " + projectsResponsesEntity.getBody());
+            return new ArrayList<ProjectDTO>(Arrays.asList(projectsResponsesEntity.getBody()));
+        }catch(HttpClientErrorException error){
+            logger.info("Error for getting projects !");
+        }
+        return new ArrayList<ProjectDTO>();
     }
 
     @Override
